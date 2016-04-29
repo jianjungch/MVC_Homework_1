@@ -8,6 +8,9 @@ namespace Money.Models.Enums
 {
     public enum  MoneyCategory
     {
+        [Display(Name = "-- 請選擇 -- ")]
+        請選擇 = -1,
+
         [Display(Name = "支出")]
         支出 = 0,
 

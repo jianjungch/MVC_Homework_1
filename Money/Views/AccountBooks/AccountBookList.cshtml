@@ -4,6 +4,17 @@
     int recordCount = 0;
 }
 
+@helper checkcategory(int i)
+{
+if (i == 0)
+{
+        @Html.Label("支出", new { @style = "color:red" })
+}
+else if (i == 1)
+{
+        @Html.Label("收入", new { @style = "color:blue" })
+}
+}
 <div class="row">
     <div class="col-md-12">
         <table class="table table-bordered table-hover">
@@ -23,8 +34,8 @@
             {
                 <tr>
                     <td>@(++recordCount)</td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.category)
+                    <td>                        
+                        @checkcategory((int)item.category)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.date)

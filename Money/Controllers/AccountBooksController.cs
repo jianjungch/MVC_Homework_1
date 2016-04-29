@@ -23,16 +23,28 @@ namespace Money.Controllers
             return View();            
         }
 
-      
-        //private IEnumerable<SelectListItem> CategoryGet()
-        //{
-        //    var items = new List<SelectListItem>();
-        //    items.Add(new SelectListItem() { Text = "--請選擇--", Value = "", Selected = true });
-        //    items.Add(new SelectListItem() { Text = "支出", Value = "1", Selected = false });
-        //    items.Add(new SelectListItem() { Text = "收入", Value = "2", Selected = false });
-        //    return items;
-        //}
-      
+
+        [HttpPost]        
+        public ActionResult Add(AccountBookViewModels para)        
+        {
+            if (!ModelState.IsValid)
+                return View("Index");
+                        
+            AccountBook AddData = new AccountBook
+            {
+                Id = Guid.NewGuid(),
+                Categoryyy = (int)para.category,
+                Dateee = para.date,
+                Amounttt = para.money,
+                Remarkkk = para.description
+            };
+
+            db.AccountBook.Add(AddData);
+            db.SaveChanges();
+            return RedirectToAction("index");
+        }
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -46,7 +58,7 @@ namespace Money.Controllers
         public ActionResult AccountBookList()
         {            
             var list = db.AccountBook.Take(10)
-                .Select(d => new AccountBookViewModels { category = (MoneyCategory)d.Categoryyy, money = d.Amounttt, date = d.Dateee, description = d.Remarkkk });
+                .Select(d => new AccountBookViewModels { category = (MoneyCategory)d.Categoryyy, money = d.Amounttt, date = d.Dateee, description = d.Remarkkk }).OrderByDescending(m => m.date);
             return View(list);
         }
     }
